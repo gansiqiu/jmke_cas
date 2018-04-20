@@ -7,8 +7,7 @@
 	            <span>确定要删除？</span>
 	        </p>
 	    </Modal>
-      <router-link class="btn btn-primary" :to="{ name: 'userCOU'}"><Icon type="plus-round"></Icon></span>新建</router-link>
-		<!-- <a class="btn btn-primary btn-sm"  href="newsCOU" role="button" ><Icon type="plus-round"></Icon></span>新建</a> -->
+        <router-link class="btn btn-primary" :to="{ name: 'userCOU'}"><Icon type="plus-round"></Icon></span>新建</router-link>
 		<Table :columns="columns" :data="dataList" style="margin-top:20px;"></Table>
 		<Page v-model="totalPage" :current="1" :total="totalPage" @on-change="pageChange" show-total style="margin-right:60px;margin-top:20px;text-align:right;"></Page>
 	</div>
@@ -21,6 +20,10 @@ export default {
         return{
             dataList:[
               {id:"1",name:"1"},
+              {id:"2",name:"2"},
+              {id:"2",name:"2"},
+              {id:"2",name:"2"},
+              {id:"2",name:"2"},
               {id:"2",name:"2"},
               {id:"2",name:"2"},
               {id:"2",name:"2"},
@@ -65,7 +68,21 @@ export default {
                      }
                  }
              ],
+             totalPage:"",
+             deleteModal:false
         }
+    },
+    methods:{
+        // 分页控件页数改变事件
+        pageChange:function(){
+
+        },
+        ok(){
+
+        }
+    },
+    created(){
+        this.totalPage = this.dataList.length;
     }
 }
 </script>

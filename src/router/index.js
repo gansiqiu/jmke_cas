@@ -5,34 +5,13 @@ import User from '@/components/User'
 import Roll from '@/components/Roll'
 import Jurisdiction from '@/components/Jurisdiction'
 import UserCOU from '@/components/UserCOU'
+import RollCOU from '@/components/RollCOU'
+import JurisdictionCOU from '@/components/JurisdictionCOU'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-        // {
-        //   path: '/',
-        //   name: 'Menu',
-        //   component: Menu,
-        //   children:[
-        //       {
-        //           path: 'user',
-        //           component: User
-        //       },
-        //       {
-        //           path: 'roll',
-        //           component: Roll
-        //       },
-        //       {
-        //           path: 'jurisdiction',
-        //           component: Jurisdiction
-        //       },
-        //       {
-        //           path: 'user/newsCOU',
-        //           component: NewsCOU
-        //       },
-        //   ]
-        // }
         {
           path: '/',
           name: 'user',
@@ -44,19 +23,29 @@ export default new Router({
           component: User
         },
         {
-            path: 'roll',
+            path: '/roll',
             name:"roll",
             component: Roll
         },
         {
-            path: 'jurisdiction',
+            path: '/jurisdiction',
             name:"jurisdiction",
             component: Jurisdiction
         },
         {
-            path: 'user/userCOU',
+            path: '/user/userCOU',
             name:'userCOU',
             component: UserCOU
+        },
+        {
+            path: '/roll/rollCOU',
+            name:'rollCOU',
+            component: RollCOU
+        },
+        {
+            path: '/jurisdiction/jurisdictionCOU',
+            name:'jurisdictionCOU',
+            component: JurisdictionCOU
         }
     ]
 })

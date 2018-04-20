@@ -12,7 +12,7 @@
         background: blue;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
     }
-    .menu-item a{
+    .menu-item a{   
         text-align: center;
         color: white;
         text-decoration: none;

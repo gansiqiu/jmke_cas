@@ -1,67 +1,8 @@
-<template>
-    <div id="app">
-        <div class="cas">
-            单点登录管理
-        </div>
-        <div class="layout">
-            <Layout>
-                <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-                    <Menu active-name="user" theme="dark" width="auto" :class="menuitemClasses">
-                        <MenuItem name="user">
-                            <router-link :to="{name:'user'}"><Icon type="ios-navigate"></Icon>用户</router-link>
-                        </MenuItem>
-                        <MenuItem name="search">
-                            <router-link :to="{name:'roll'}"><Icon type="search"></Icon>角色</router-link>
-                        </MenuItem>
-                        <MenuItem name="jurisdiction">
-                            <router-link :to="{name:'jurisdiction'}"><Icon type="settings"></Icon>权限</router-link>
-                        </MenuItem>
-                    </Menu>
-                    <div slot="trigger"></div>
-                </Sider>
-                <Layout>
-                    <Header class="layout-header-bar"></Header>
-                    <Content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
-                        <router-view/>
-                    </Content>
-                </Layout>
-            </Layout>
-        </div>
-    </div>
-</template>
-
-<script>
-export default {
-  name: 'App',
-  data () {
-      return {
-          isCollapsed: false
-      };
-  },
-  computed: {
-      menuitemClasses: function () {
-          return [
-              'menu-item',
-              this.isCollapsed ? 'collapsed-menu' : ''
-          ]
-      }
-  },
-  created: function () {
-	  this.$router.push('/');
-	}
-}
-</script>
-
 <style>
 html,body{
+    font-size: 16px;
     margin: 0px;
     padding: 0px;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
 }
 .cas{
     color: white;
@@ -83,6 +24,14 @@ html,body{
     background: #fff;
     background: blue;
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
+}
+.ivu-menu-vertical .ivu-menu-item{
+    padding: 0;
+}
+.ivu-menu-vertical div{
+    height:50px;
+    text-align:center;
+    line-height:50px;
 }
 .menu-item a{
     text-align: center;
@@ -115,3 +64,92 @@ html,body{
     font-size: 22px;
 }
 </style>
+
+<template>
+    <div id="app">
+        <div class="cas">
+            单点登录管理
+        </div>
+        <div class="layout">
+            <Layout>
+                <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
+                    <Menu :active-name="ur" theme="dark" width="auto" :class="menuitemClasses">
+                        <MenuItem name="user">
+                            <div v-on:click="userPage">
+                                <Icon type="ios-navigate"></Icon>
+                                <span>用户</span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem name="roll">
+                            <div v-on:click="rollPage">
+                                <Icon type="search"></Icon>
+                                <span>角色</span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem name="jurisdiction">
+                            <div v-on:click="jurisdictionPage">
+                                <Icon type="settings"></Icon>
+                                <span>权限</span>
+                            </div>
+                        </MenuItem>
+                    </Menu>
+                    <div slot="trigger"></div>
+                </Sider>
+                <Layout>
+                    <Header class="layout-header-bar"></Header>
+                    <Content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
+                        <router-view/>
+                    </Content>
+                </Layout>
+            </Layout>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'App',
+    data () {
+        return {
+            isCollapsed: false,
+            rr:this.$route.path
+        };
+    },
+    computed: {
+            menuitemClasses: function () {
+                return [
+                    'menu-item',
+                    this.isCollapsed ? 'collapsed-menu' : ''
+                ]
+            },
+            ur: function(){
+                if (this.$route.path == "/") {
+                    return "user"
+                }
+                if (this.$route.path == "/user" || this.$route.path == "/user/userCOU") {
+                    return "user"
+                }
+                if (this.$route.path == "/roll" || this.$route.path == "/roll/rollCOU") {
+                    return "roll"
+                }
+                if(this.$route.path == "/jurisdiction" || this.$route.path == "/jurisdiction/jurisdictionCOU"){
+                    return "jurisdiction"
+                }
+            }
+    },
+    methods:{
+        userPage:function(event){
+            this.$router.push({name: 'user', replace: true});
+        },
+        rollPage:function(event){
+            this.$router.push({name: 'roll', replace: true});
+        },
+        jurisdictionPage:function(event){
+            this.$router.push({name: 'jurisdiction', replace: true});
+        }
+    },
+    created: function () {
+	        this.$router.push('/');
+	}
+}
+</script>

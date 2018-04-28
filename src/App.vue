@@ -97,7 +97,7 @@ html,body{
                 </Sider>
                 <Layout>
                     <Header class="layout-header-bar"></Header>
-                    <Content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
+                    <Content :style="{margin: '20px', background: '#fff', minHeight: '780px'}">
                         <router-view/>
                     </Content>
                 </Layout>

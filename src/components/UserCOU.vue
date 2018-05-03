@@ -8,7 +8,7 @@
 <template>
   <div class="userCOU">
     <Icol span="24">新建/修改用户</Icol><br>
-    <Form :model="formItem" :label-width="80">
+    <Form :model="formItem" :label-width="180">
         <FormItem label="用户名*">
             <Input type="email" v-model="formItem.name" placeholder="请输入用户名"></Input>
         </FormItem>
@@ -21,6 +21,12 @@
                 <Radio label="0">有效标志0</Radio>
                 <Radio label="1">有效标志1</Radio>
             </RadioGroup>
+        </FormItem>
+
+        <FormItem  label="角色设置*">
+            <Select v-model="formItem.rollName" multiple style="width:400px">
+                <Option v-for="item in rollList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
         </FormItem>
 
         <FormItem>
@@ -37,8 +43,23 @@
                 formItem: {
                     name: '',
                     password: '',
-                    flag: "0"
-                }
+                    flag: "0",
+                    rollName:[]
+                },
+                rollList: [
+                    {
+                        value: '0',
+                        label: '设计师'
+                    },
+                    {
+                        value: '1',
+                        label: '管理员'
+                    },
+                    {
+                        value: '2',
+                        label: '企业用户'
+                    }
+                ],
             }
         },
         methods:{

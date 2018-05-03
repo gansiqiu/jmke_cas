@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="roll" v-cloak>
+    <div class="role" v-cloak>
         <Icol span="24">角色</Icol><br>
         <Modal v-model="deleteModal" @on-ok="ok">
 	        <p style="color:#f60;text-align:center">
@@ -7,7 +7,7 @@
 	            <span>确定要删除？</span>
 	        </p>
 	    </Modal>
-        <router-link class="btn btn-primary" :to="{ name: 'rollCOU'}"><Icon type="plus-round"></Icon></span>新建</router-link>
+        <router-link class="btn btn-primary" :to="{ name: 'roleCOU'}"><Icon type="plus-round"></Icon></span>新建</router-link>
 		<Table :columns="columns" :data="dataList" style="margin-top:20px;"></Table>
 		<Page v-model="totalPage" :current="1" :total="totalPage" @on-change="pageChange" show-total style="margin-right:60px;margin-top:20px;text-align:right;"></Page>
     </div>
@@ -15,27 +15,13 @@
 
 <script>
 export default {
-    name:"roll",
+    name:"role",
     data(){
         return{
-            dataList:[
-              {id:"1",name:"管理员"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"设计师"},
-              {id:"2",name:"企业用户"},
-              {id:"2",name:"企业用户"},
-              {id:"2",name:"企业用户"},
-              {id:"2",name:"企业用户"},
-              {id:"2",name:"企业用户"}
-            ],
+            dataList:[],
             columns: [
           	     { title: 'ID',key: 'id', align: 'center'},
-                 { title: '类型',key: 'name', align: 'center'},
+                 { title: '用户名称',key: 'rolename', align: 'center'},
                  { title: '操作',key: 'opt', align: 'center',
               	   render: (h, params) => {
                          return h('div', [
@@ -69,7 +55,9 @@ export default {
                  }
              ],
              totalPage:"",
-             deleteModal:false
+             deleteModal:false,
+             postUrl:'/api/role/getDataByPage',
+             postData:{offset:0,limit:10}
         }
     },
     methods:{
@@ -82,7 +70,17 @@ export default {
         }
     },
     created(){
-        this.totalPage = this.dataList.length;
+        // this.totalPage = this.dataList.length;
+        var that = this;
+        axios.get(this.postUrl, {
+　　          params: this.postData
+        })
+        .then(function(res){
+            that.dataList = res.data.resultData;
+        })
+        .catch(function(err){
+            that.$Notice.error({title:"请求失败！"});
+        });
     }
 }
 </script>

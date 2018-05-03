@@ -18,25 +18,10 @@ export default {
     name:"jurisdiction",
     data(){
         return{
-            dataList:[
-              {id:"1",name:"1",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"},
-              {id:"2",name:"2",jurisdiction:"1"}
-            ],
+            dataList:[],
             columns: [
           	     { title: 'ID',key: 'id', align: 'center'},
-                 { title: '用户名',key: 'name', align: 'center'},
-                 { title: '权限',key: 'jurisdiction', align: 'center'},
+                 { title: '权限名称',key: 'permissionName', align: 'center'},
                  { title: '操作',key: 'opt', align: 'center',
               	   render: (h, params) => {
                          return h('div', [
@@ -64,26 +49,86 @@ export default {
                                          this.remove(params.index)
                                      }
                                  }
-                             }, '删除')
-                         ]);
-                     }
+                            }, '删除')
+                    ]);
                  }
-             ],
-             totalPage:"",
-             deleteModal:false
+             }
+            ],
+            totalPage:0,
+            deleteModal:false,
+            postUrl:'/api/permission/getDataByPage',
+            postData:{offset:0,limit:10},
+            permissionId:"",
+            deletePostUrl:'/api/permission/deletePermission',
+            deleateData:{id:0}
         }
     },
     methods:{
         // 分页控件页数改变事件
-        pageChange:function(){
-
+        pageChange:function(index){
+            this.$Loading.start();
+            let that = this;
+            this.postData.offset = (index - 1) * 10;
+            axios.get(this.postUrl, {
+    　　          params: this.postData
+            })
+            .then(function(res){
+                that.$Loading.finish();
+                that.dataList = res.data.resultData;
+                that.totalPage = res.data.totalRecords;
+            })
+            .catch(function(err){
+                that.$Loading.error();
+                that.$Notice.error({title:"请求失败！"});
+            });
         },
         ok(){
-
+            var that = this;
+            this.deleateData.id = this.permissionId;
+            axios.get(this.deletePostUrl,{
+    　　          params: this.deleateData
+            })
+            .then(function(res){
+                that.$Notice.success({title:"删除成功！"});
+                that.deleteModal = false;
+                axios.get(that.postUrl, {
+        　　          params: that.postData
+                })
+                .then(function(res){
+                    that.dataList = res.data.resultData;
+                    that.totalPage = res.data.totalRecords;
+                })
+                .catch(function(err){
+                    that.$Notice.error({title:"请求失败！"});
+                });
+            })
+            .catch(function(err){
+                that.$Notice.error({title:"请求失败！"});
+            });
+        },
+        change(index){
+            this.$router.push({path:'/Jurisdiction/JurisdictionCOU',query: {id: this.dataList[index].id, permission:this.dataList[index].permissionName }});
+        },
+        remove(index){
+            this.permissionId =  this.dataList[index].id;
+            this.deleteModal = true;
         }
     },
     created(){
-        this.totalPage = this.dataList.length;
+        var that = this;
+        this.$Loading.start();
+        axios.get(this.postUrl, {
+　　          params: this.postData
+        })
+        .then(function(res){
+            that.$Loading.finish();
+            that.dataList = res.data.resultData;
+            that.totalPage = res.data.totalRecords;
+        })
+        .catch(function(err){
+            that.$Loading.error();
+            that.$Notice.error({title:"请求失败！"});
+        });
     }
 }
 </script>

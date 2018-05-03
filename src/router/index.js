@@ -1,15 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Menu from '@/components/Menu'
 import User from '@/components/User'
-import Roll from '@/components/Roll'
+import Role from '@/components/Role'
 import Jurisdiction from '@/components/Jurisdiction'
 import UserCOU from '@/components/UserCOU'
-import RollCOU from '@/components/RollCOU'
+import RoleCOU from '@/components/RoleCOU'
 import JurisdictionCOU from '@/components/JurisdictionCOU'
 
-Vue.use(Router)
 
+Vue.use(Router)
 export default new Router({
   routes: [
         {
@@ -23,9 +22,9 @@ export default new Router({
           component: User
         },
         {
-            path: '/roll',
-            name:"roll",
-            component: Roll
+            path: '/role',
+            name:"role",
+            component: Role
         },
         {
             path: '/jurisdiction',
@@ -38,9 +37,9 @@ export default new Router({
             component: UserCOU
         },
         {
-            path: '/roll/rollCOU',
-            name:'rollCOU',
-            component: RollCOU
+            path: '/role/roleCOU',
+            name:'roleCOU',
+            component: RoleCOU
         },
         {
             path: '/jurisdiction/jurisdictionCOU',

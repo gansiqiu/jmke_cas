@@ -61,7 +61,7 @@ html,body{
     transform: translateX(5px);
     transition: font-size .2s ease .2s, transform .2s ease .2s;
     vertical-align: middle;
-    font-size: 22px;
+    font-size: 16px;
 }
 </style>
 
@@ -80,8 +80,8 @@ html,body{
                                 <span>用户</span>
                             </div>
                         </MenuItem>
-                        <MenuItem name="roll">
-                            <div v-on:click="rollPage">
+                        <MenuItem name="role">
+                            <div v-on:click="rolePage">
                                 <Icon type="search"></Icon>
                                 <span>角色</span>
                             </div>
@@ -108,11 +108,10 @@ html,body{
 
 <script>
 export default {
-    name: 'App',
+    name: 'app',
     data () {
         return {
-            isCollapsed: false,
-            rr:this.$route.path
+            isCollapsed: false
         };
     },
     computed: {
@@ -129,8 +128,8 @@ export default {
                 if (this.$route.path == "/user" || this.$route.path == "/user/userCOU") {
                     return "user"
                 }
-                if (this.$route.path == "/roll" || this.$route.path == "/roll/rollCOU") {
-                    return "roll"
+                if (this.$route.path == "/role" || this.$route.path == "/role/roleCOU") {
+                    return "role"
                 }
                 if(this.$route.path == "/jurisdiction" || this.$route.path == "/jurisdiction/jurisdictionCOU"){
                     return "jurisdiction"
@@ -141,8 +140,8 @@ export default {
         userPage:function(event){
             this.$router.push({name: 'user', replace: true});
         },
-        rollPage:function(event){
-            this.$router.push({name: 'roll', replace: true});
+        rolePage:function(event){
+            this.$router.push({name: 'role', replace: true});
         },
         jurisdictionPage:function(event){
             this.$router.push({name: 'jurisdiction', replace: true});

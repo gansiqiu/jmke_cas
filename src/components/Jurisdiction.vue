@@ -58,7 +58,6 @@ export default {
             deleteModal:false,
             postUrl:'/api/permission/getDataByPage',
             postData:{offset:0,limit:10},
-            permissionId:"",
             deletePostUrl:'/api/permission/deletePermission',
             deleateData:{id:0}
         }
@@ -84,7 +83,6 @@ export default {
         },
         ok(){
             var that = this;
-            this.deleateData.id = this.permissionId;
             axios.get(this.deletePostUrl,{
     　　          params: this.deleateData
             })
@@ -107,10 +105,10 @@ export default {
             });
         },
         change(index){
-            this.$router.push({path:'/Jurisdiction/JurisdictionCOU',query: {id: this.dataList[index].id, permission:this.dataList[index].permissionName }});
+            this.$router.push({path:'/jurisdiction/jurisdictionCOU',query: {id: this.dataList[index].id, permission:this.dataList[index].permissionName }});
         },
         remove(index){
-            this.permissionId =  this.dataList[index].id;
+            this.deleateData.id = this.dataList[index].id;
             this.deleteModal = true;
         }
     },

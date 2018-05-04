@@ -18,25 +18,11 @@ export default {
     name:"user",
     data(){
         return{
-            dataList:[
-              {id:"1",name:"1"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"},
-              {id:"2",name:"2"}
-            ],
+            dataList:[],
             columns: [
           	     { title: 'ID',key: 'id', align: 'center'},
-                 { title: '姓名',key: 'name', align: 'center'},
-                 { title: '操作',key: 'opt', align: 'center',
+                 { title: '用户名称',key: 'email', align: 'center'},
+                 { title: '修改',key: 'opt', align: 'center',
               	   render: (h, params) => {
                          return h('div', [
                              h('Button', {
@@ -53,23 +39,27 @@ export default {
                                      }
                                  }
                              }, '修改'),
-                             h('Button', {
-                                 props: {
-                                     type: 'error',
-                                     size: 'small'
-                                 },
-                                 on: {
-                                     click: () => {
-                                         this.remove(params.index)
-                                     }
-                                 }
-                             }, '删除')
+                             // h('Button', {
+                             //     props: {
+                             //         type: 'error',
+                             //         size: 'small'
+                             //     },
+                             //     on: {
+                             //         click: () => {
+                             //             this.remove(params.index)
+                             //         }
+                             //     }
+                             // }, '删除')
                          ]);
                      }
                  }
              ],
              totalPage:"",
-             deleteModal:false
+             deleteModal:false,
+             deleateData:{email:"",valid:0},
+             deletePostUrl:"/api/user/resetUserValid",
+             postUrl:'/api/user/getDataByPage',
+             postData:{offset:0,limit:10}
         }
     },
     methods:{
@@ -78,11 +68,53 @@ export default {
 
         },
         ok(){
-
+            var that = this;
+            this.deleateData.valid = !this.deleateData.valid;
+            console.log(this.deleateData.valid );
+            // 删除选项
+            axios.post(this.deletePostUrl, JSON.stringify(this.deleateData))
+            .then(function(res){
+                that.$Notice.success({title:"删除成功！"});
+                that.deleteModal = false;
+                axios.get(that.postUrl, {
+        　　          params: that.postData
+                })
+                .then(function(res){
+                    console.log(res);
+                    that.dataList = res.data.resultData;
+                    that.totalPage = res.data.totalRecords
+                })
+                .catch(function(err){
+                    that.$Notice.error({title:"请求失败！"});
+                });
+            })
+            .catch(function(err){
+                that.$Notice.error({title:"请求失败！"});
+            });
+        },
+        change(index){
+            this.$router.push({path:'/user/userCOU',query: {id: this.dataList[index].id, email:this.dataList[index].email,  valid:this.dataList[index].valid}});
+        },
+        remove(index){
+            this.deleateData.email = this.dataList[index].email;
+            this.deleateData.valid = this.dataList[index].valid;
+            console.log("=================:",this.deleateData.valid );
+            this.deleteModal = true;
         }
     },
     created(){
-        this.totalPage = this.dataList.length;
+        var that = this;
+        axios.get(this.postUrl, {
+　　          params: this.postData
+        })
+        .then(function(res){
+            console.log(res);
+            that.dataList = res.data.resultData;
+            that.totalPage = res.data.totalRecords
+        })
+        .catch(function(err){
+            that.$Notice.error({title:"请求失败！"});
+        });
     }
 }
 </script>

@@ -6,8 +6,8 @@
                 <Input type="text" v-model="formItem.roleName" placeholder="请输入..."></Input>
             </FormItem>
             <FormItem  label="设置权限*">
-                <Select v-model="formItem.jurisdictionArr" multiple style="width:400px">
-                    <Option v-for="item in jurisdictionList" :value="item.id" :key="item.id">{{ item.permissionName }}</Option>
+                <Select v-model="formItem.permissionArr" multiple style="width:400px">
+                    <Option v-for="item in permissionList" :value="item.id" :key="item.id">{{ item.permissionName }}</Option>
                 </Select>
             </FormItem>
             <FormItem>
@@ -22,28 +22,34 @@ export default {
     name:"rollCOU",
     data () {
         return {
-            jurisdictionList: [],
+            //
+            permissionList: [],
             formItem: {
-                jurisdictionArr:[],
-                roleName:""
+                roleName:"",
+                permissionArr:[]
             },
+            // 权限数据
             permissionPostUrl:"/api/permission/getDataByPage",
             permissionPostData:{offset:0,limit:1000}
         }
     },
     methods:{
         submit(){
-            console.log("111",this.formItem.jurisdictionArr,this.formItem.roleName);
+            console.log(this.formItem.permissionArr,this.formItem.roleName);
         }
     },
     created(){
+        // 判断新建还是修改
+        if(this.$route.query.id != undefined){
+            this.formItem.roleName = this.$route.query.role;
+        }
+        // 权限数据的初始化
         var that = this;
         axios.get(this.permissionPostUrl, {
 　　          params: this.permissionPostData
         })
         .then(function(res){
-            console.log(res);
-            that.jurisdictionList = res.data.resultData;
+            that.permissionList = res.data.resultData;
         })
         .catch(function(err){
             that.$Notice.error({title:"请求失败！"});

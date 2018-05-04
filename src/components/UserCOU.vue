@@ -10,7 +10,7 @@
     <Icol span="24">新建/修改用户</Icol><br>
     <Form :model="formItem" :label-width="180">
         <FormItem label="用户名*">
-            <Input type="email" v-model="formItem.name" placeholder="请输入用户名"></Input>
+            <Input type="email" v-model="formItem.email" placeholder="请输入用户名"></Input>
         </FormItem>
         <FormItem label="密码*">
             <Input type="password" v-model="formItem.password" placeholder="请输入密码"></Input>
@@ -41,7 +41,7 @@
         data () {
             return {
                 formItem: {
-                    name: '',
+                    email: '',
                     password: '',
                     flag: "0",
                     rollName:[]
@@ -64,7 +64,7 @@
         },
         methods:{
             submit(){
-                console.log("111111111",this.formItem.name,this.formItem.password,this.formItem.flag);
+                console.log("111111111",this.formItem.email,this.formItem.password,this.formItem.flag);
             }
         },
         created(){
